@@ -1,4 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Chat Application
+
+A modern, real-time AI chat application built with Next.js that allows users to have interactive conversations with an AI assistant.
+
+## Features
+
+- Real-time AI chat interactions
+- Modern and responsive user interface
+- Persistent chat history
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org) - React framework for production
+- [Ai SDK](https://sdk.vercel.ai/docs) - AI integration for chat functionality
+- TypeScript for type safety
+- Tailwind CSS for styling
 
 ## Getting Started
 
@@ -14,23 +29,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Before running the application, make sure to set up your environment variables:
+
+1. Create a `.env.local` file in the root directory
+2. Add your required environment variables
+
+## Project Structure
+
+```
+ai-chat-app/
+├── app/           # Next.js app directory
+├── components/    # Reusable UI components
+├── lib/          # Utility functions and helpers
+└── public/       # Static assets
+```
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
+- [Tailwind CSS](https://tailwindcss.com/docs) - utility-first CSS framework
+- [TypeScript](https://www.typescriptlang.org/docs) - typed JavaScript
+- [Ai SDK](https://sdk.vercel.ai/docs) - AI integration
