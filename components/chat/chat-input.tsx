@@ -41,7 +41,7 @@ export function ChatInput({
 
   return (
     <form
-      className="w-full fixed max-w-2xl mx-auto bottom-0 left-0 right-0 z-10 pb-4 pt-2"
+      className="w-full fixed max-w-2xl mx-auto bottom-0 z-10 pb-4 pt-2"
       onSubmit={handleSubmit}
     >
       <Card className="w-full">

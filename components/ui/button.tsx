@@ -20,6 +20,8 @@ const buttonVariants = cva(
         ghost:
           'hover:bg-accent/10 hover:shadow-[0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
         link: 'text-primary underline-offset-4 hover:underline hover:text-primary/90',
+        glass:
+          'bg-[rgba(255,255,255,0.25)] dark:bg-[rgba(20,20,20,0.25)] backdrop-blur-[6px] border border-[var(--glass-border)] text-foreground shadow-[inset_0_1px_0_var(--glass-highlight),0_1px_3px_var(--glass-shadow)] hover:bg-[rgba(255,255,255,0.35)] dark:hover:bg-[rgba(30,30,30,0.35)] hover:shadow-[inset_0_1px_0_var(--glass-highlight),0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
       },
       size: {
         default: 'h-10 px-5 py-2.5',

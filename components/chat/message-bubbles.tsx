@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils'
 import { BotIcon, User2Icon } from 'lucide-react'
-import { Message } from 'ai'
 import { motion } from 'motion/react'
 
 interface MessageProps {
@@ -128,7 +127,6 @@ function TypingIndicator() {
   )
 }
 
-// Helper function to format time
 function formatTime(date: Date): string {
   return new Intl.DateTimeFormat('en', {
     hour: 'numeric',
