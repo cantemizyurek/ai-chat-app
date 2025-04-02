@@ -110,11 +110,11 @@ export function LocalStorageProvider({
   }
 
   return (
-    <LocalStorageContext.Provider
+    <LocalStorageContext
       value={{ chats, saveChat, deleteChat, getChatMessages }}
     >
       {children}
-    </LocalStorageContext.Provider>
+    </LocalStorageContext>
   )
 }
 
