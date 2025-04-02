@@ -49,34 +49,31 @@ export function Nav() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
+              className={`group p-3 rounded-lg transition-all hover:bg-white/10 max-w-full overflow-hidden ${
+                pathname === `/chat/${chat.id}` ? 'bg-white/10' : ''
+              }`}
             >
-              <div
-                className={`group p-3 rounded-lg transition-all hover:bg-white/10 ${
-                  pathname === `/chat/${chat.id}` ? 'bg-white/10' : ''
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="flex-1 flex items-center gap-3 cursor-pointer"
-                    onClick={() => handleChatClick(chat.id)}
-                  >
-                    <MessageSquare className="w-4 h-4 text-white/60" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-white/80 truncate">
-                        {chat.firstMessage}
-                      </p>
-                      <p className="text-xs text-white/40 mt-1">
-                        {chat.messages.length} messages
-                      </p>
-                    </div>
+              <div className="flex items-center gap-3 max-w-full overflow-hidden">
+                <div
+                  className="flex-1 flex items-center gap-3 cursor-pointer overflow-hidden"
+                  onClick={() => handleChatClick(chat.id)}
+                >
+                  <MessageSquare className="w-4 h-4 text-white/60" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-white/80 truncate">
+                      {chat.firstMessage}
+                    </p>
+                    <p className="text-xs text-white/40 mt-1">
+                      {chat.messages.length} messages
+                    </p>
                   </div>
-                  <button
-                    onClick={() => handleDelete(chat.id)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-white/20 rounded"
-                  >
-                    <Trash2Icon className="w-4 h-4 text-red-500/80" />
-                  </button>
                 </div>
+                <button
+                  onClick={() => handleDelete(chat.id)}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-white/20 rounded flex-shrink-0"
+                >
+                  <Trash2Icon className="w-4 h-4 text-red-500/80" />
+                </button>
               </div>
             </motion.div>
           ))}
