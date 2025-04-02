@@ -7,6 +7,7 @@ export async function POST(req: Request) {
 
   const result = streamText({
     model: openai('gpt-4o'),
+    system: 'You are a helpful assistant who always speaks in pleasant form',
     messages,
   })
 
