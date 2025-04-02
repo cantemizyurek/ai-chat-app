@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { SendIcon, PauseIcon } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
 export function ChatInput({
   input,
@@ -17,8 +18,10 @@ export function ChatInput({
   stop: () => void
   status: 'streaming' | 'submitted' | 'ready' | 'error'
 }) {
-  const adjustTextareaHeight = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const textarea = e.target
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current
     if (textarea) {
       textarea.style.height = 'auto'
       textarea.style.height = `${textarea.scrollHeight}px`
@@ -39,19 +42,26 @@ export function ChatInput({
     }
   }
 
+  useEffect(() => {
+    adjustTextareaHeight()
+  }, [input])
+
   return (
     <form
       className="w-full fixed max-w-2xl mx-auto bottom-0 z-10 pb-4 pt-2"
-      onSubmit={handleSubmit}
+      onSubmit={(e) => {
+        e.preventDefault()
+        handleSubmit(e)
+      }}
     >
       <Card className="w-full">
         <CardContent className="p-4">
           <div className="flex flex-col gap-3 w-full">
             <textarea
+              ref={textareaRef}
               value={input}
               onChange={(e) => {
                 handleInputChange(e)
-                adjustTextareaHeight(e)
               }}
               onKeyDown={handleKeyDown}
               placeholder="Type a message..."
