@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { ChatProvider } from '@/components/chat/chat-provider'
 import { NavSkeleton } from './components/nav-skeleton'
 import { Suspense } from 'react'
+import { Toaster } from '@/components/ui/sonner'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,6 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Suspense>
         <div className="flex flex-col w-full min-h-full ml-68">{children}</div>
       </div>
+      <Toaster />
     </ChatProvider>
   )
 }

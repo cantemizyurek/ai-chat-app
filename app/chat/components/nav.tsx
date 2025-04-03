@@ -7,6 +7,8 @@ import { usePathname } from 'next/navigation'
 import { motion } from 'motion/react'
 import { use } from 'react'
 import { deleteChatAction } from '../action'
+import { useAction } from 'next-safe-action/hooks'
+import { toast } from 'sonner'
 
 export function Nav({
   chatsPromise,
@@ -21,6 +23,14 @@ export function Nav({
 }) {
   const chats = use(chatsPromise)
   const pathname = usePathname()
+  const { execute, status } = useAction(deleteChatAction, {
+    onSuccess: () => {
+      toast.success('Chat deleted')
+    },
+    onError: () => {
+      toast.error('Failed to delete chat')
+    },
+  })
 
   return (
     <div className="m-4 h-[calc(100vh-32px)] backdrop-blur-md bg-[rgba(255,255,255,0.45)] dark:bg-[rgba(10,10,10,0.35)] border border-white/10 w-64 overflow-hidden fixed top-0 left-0">
@@ -60,11 +70,12 @@ export function Nav({
                 </Link>
                 <button
                   onClick={() =>
-                    deleteChatAction({
+                    execute({
                       id: chat.id,
                       path: pathname,
                     })
                   }
+                  disabled={status === 'executing'}
                   className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-white/20 rounded flex-shrink-0"
                 >
                   <Trash2Icon className="w-4 h-4 text-red-500/80" />

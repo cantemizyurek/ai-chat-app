@@ -42,7 +42,7 @@ export function Chat({ messages, isLoading = false }: ChatProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6 h-full mb-40 p-4">
+    <div className="flex flex-col gap-4 h-full mb-40 p-4">
       {messages.map((message) => {
         const createdAt = message.createdAt
           ? new Date(message.createdAt)
