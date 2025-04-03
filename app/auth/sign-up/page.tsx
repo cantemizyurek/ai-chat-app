@@ -4,42 +4,43 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
-
 import { useAction } from 'next-safe-action/hooks'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { signInAction } from './action'
-import { signInSchema } from './schema'
+import { signUpSchema } from './schema'
+import { Form, FormMessage } from '@/components/ui/form'
 import {
-  Form,
-  FormControl,
-  FormItem,
   FormField,
+  FormItem,
   FormLabel,
-  FormMessage,
+  FormControl,
 } from '@/components/ui/form'
+import { cn } from '@/lib/utils'
 import { InputPassword } from '@/components/ui/input-password'
+import { signUpAction } from './action'
 
-export default function SignInPage() {
-  const form = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+export default function SignUpPage() {
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
+      name: '',
       password: '',
+      confirmPassword: '',
     },
     mode: 'onTouched',
   })
 
-  const { execute, status } = useAction(signInAction, {
+  const { execute, status } = useAction(signUpAction, {
     onError: (error) => {
       for (const key in error.error.validationErrors) {
         const validationError =
           error.error.validationErrors[
-            key as keyof z.infer<typeof signInSchema>
+            key as keyof z.infer<typeof signUpSchema>
           ]
         if (validationError?._errors?.[0]) {
-          form.setError(key as keyof z.infer<typeof signInSchema>, {
+          form.setError(key as keyof z.infer<typeof signUpSchema>, {
             message: validationError._errors[0],
           })
         }
@@ -58,10 +59,11 @@ export default function SignInPage() {
         <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-2">
             <h1 className="text-4xl font-bold">
-              /Sign<span className="text-primary/70">In</span>
+              /Sign<span className="text-primary/70">Up</span>
             </h1>
-            <p className="text-muted-foreground">
-              Sign in to your account to access TriGPT
+            <p className="text-muted-foreground max-w-md">
+              Sign up to get started with TriGPT and explore the next generation
+              of AI Chat Applications.
             </p>
           </div>
           <div className="text-lg text-muted-foreground">Tri - GPT</div>
@@ -79,13 +81,40 @@ export default function SignInPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor={field.name}>Email</FormLabel>
+                    <FormLabel
+                      htmlFor={field.name}
+                      className={cn(
+                        form.formState.errors.email && 'text-destructive'
+                      )}
+                    >
+                      Email
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="Email"
-                        {...field}
+                        placeholder="test@test.com"
                         id={field.name}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor={field.name}>Username</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Can"
+                        id={field.name}
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -101,33 +130,49 @@ export default function SignInPage() {
                   <FormItem>
                     <FormLabel htmlFor={field.name}>Password</FormLabel>
                     <FormControl>
-                      <InputPassword placeholder="Password" {...field} />
+                      <InputPassword
+                        placeholder="********"
+                        id={field.name}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button
-                variant="link"
-                size="sm"
-                className="text-muted-foreground ml-auto"
-              >
-                <Link href="/auth/forgot-password">Forgot password?</Link>
-              </Button>
+            </div>
+            <div className="flex flex-col gap-2">
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor={field.name}>Confirm Password</FormLabel>
+                    <FormControl>
+                      <InputPassword
+                        placeholder="********"
+                        id={field.name}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <Button
               disabled={status === 'executing' || !form.formState.isValid}
-              type="submit"
+              className="flex gap-2 items-center"
             >
               {status === 'executing' ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                'Sign In'
+                'Sign Up'
               )}
             </Button>
             <div className="flex gap-2 items-center mx-auto text-sm">
               <span className="text-muted-foreground items-center">
-                Don't have an account?
+                Already have an account?
               </span>
               <Button
                 variant="link"
@@ -135,7 +180,7 @@ export default function SignInPage() {
                 className="text-muted-foreground p-0 text-sm"
                 asChild
               >
-                <Link href="/auth/sign-up">Sign up</Link>
+                <Link href="/auth/sign-in">Sign in</Link>
               </Button>
             </div>
           </div>

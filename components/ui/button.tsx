@@ -5,29 +5,27 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2.5 whitespace-nowrap rounded-full text-sm font-medium transition-all duration-300 cursor-pointer disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 relative overflow-hidden backdrop-blur-[2px] before:absolute before:inset-0 before:rounded-full before:bg-[radial-gradient(circle_at_50%_-20%,var(--glass-shine),transparent_70%)] before:opacity-0 hover:before:opacity-100 before:transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[--glass-border] group",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: {
         default:
-          'bg-gradient-to-b from-primary/90 to-primary border border-[--glass-border] text-primary-foreground shadow-[inset_0_1px_0_var(--glass-highlight),0_1px_3px_var(--glass-shadow)] hover:shadow-[inset_0_1px_0_var(--glass-highlight),0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)] overflow-hidden',
+          'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
         destructive:
-          'bg-gradient-to-b from-destructive/90 to-destructive border border-[--glass-border] text-destructive-foreground shadow-[inset_0_1px_0_var(--glass-highlight),0_1px_3px_var(--glass-shadow)] hover:shadow-[inset_0_1px_0_var(--glass-highlight),0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
+          'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:
-          'bg-gradient-to-b from-background/50 to-background/30 backdrop-blur-[6px] border-2 border-[--glass-border] text-foreground shadow-[inset_0_1px_0_var(--glass-highlight),0_1px_3px_var(--glass-shadow)] hover:shadow-[inset_0_1px_0_var(--glass-highlight),0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
+          'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
         secondary:
-          'bg-gradient-to-b from-secondary/90 to-secondary border border-[--glass-border] text-secondary-foreground shadow-[inset_0_1px_0_var(--glass-highlight),0_1px_3px_var(--glass-shadow)] hover:shadow-[inset_0_1px_0_var(--glass-highlight),0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
+          'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost:
-          'hover:bg-accent/10 hover:shadow-[0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
-        link: 'text-primary underline-offset-4 hover:underline hover:text-primary/90',
-        glass:
-          'bg-[rgba(255,255,255,0.25)] dark:bg-[rgba(20,20,20,0.25)] backdrop-blur-[6px] border border-[var(--glass-border)] text-foreground shadow-[inset_0_1px_0_var(--glass-highlight),0_1px_3px_var(--glass-shadow)] hover:bg-[rgba(255,255,255,0.35)] dark:hover:bg-[rgba(30,30,30,0.35)] hover:shadow-[inset_0_1px_0_var(--glass-highlight),0_8px_20px_-3px_var(--glass-shadow)] hover:translate-y-[-1px] active:translate-y-[1px] after:absolute after:inset-0 after:rounded-full after:opacity-0 after:transition-opacity hover:after:opacity-100 after:bg-[linear-gradient(180deg,var(--glass-shimmer)_0%,transparent_60%)]',
+          'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
+        link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-10 px-5 py-2.5',
-        sm: 'h-9 px-4 py-2',
-        lg: 'h-11 px-6 py-3',
-        icon: 'h-10 w-10',
+        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
+        sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
+        lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
+        icon: 'size-9',
       },
     },
     defaultVariants: {
