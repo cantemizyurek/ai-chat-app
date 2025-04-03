@@ -7,10 +7,19 @@ import { and, eq } from 'drizzle-orm'
 import { z } from 'zod'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { generateText } from 'ai'
+import { openai } from '@ai-sdk/openai'
 
 export const createChatAction = userActionClient
   .schema(z.string())
   .action(async ({ parsedInput: message, ctx: { user } }) => {
+    const name = await generateText({
+      model: openai('gpt-3.5-turbo'),
+      system:
+        'You are an ai assistant. You will be given a message and you will need to generate a name for the chat. The name should be a short and concise description of the chat.',
+      prompt: message,
+    })
+
     const [chat] = await db
       .insert(schema.chats)
       .values({
@@ -22,7 +31,7 @@ export const createChatAction = userActionClient
             content: message,
           },
         ],
-        name: message,
+        name: name.text,
       })
       .returning()
 
@@ -41,9 +50,7 @@ export const deleteChatAction = userActionClient
 
     revalidatePath('/chat')
 
-    if (chat.id === id) {
+    if (path === `/chat/${id}`) {
       redirect('/chat')
     }
-
-    return { success: true }
   })

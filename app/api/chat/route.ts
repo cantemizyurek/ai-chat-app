@@ -2,7 +2,7 @@ import { openai } from '@ai-sdk/openai'
 import { anthropic } from '@ai-sdk/anthropic'
 import { xai } from '@ai-sdk/xai'
 import { fireworks } from '@ai-sdk/fireworks'
-import { LanguageModelV1, streamText } from 'ai'
+import { LanguageModelV1, streamText, smoothStream } from 'ai'
 import { db } from '@/lib/database'
 import { schema } from '@/lib/database'
 import { eq } from 'drizzle-orm'
@@ -19,20 +19,19 @@ export async function POST(req: Request) {
     model: getModel(model),
     system: 'You are a helpful assistant who always speaks in pleasant form',
     messages: message.messages,
+    experimental_transform: smoothStream(),
     async onFinish(result) {
       await db
         .update(schema.chats)
         .set({
           initialized: true,
           messages: [
-            ...message.messages.map((m: any) => ({
-              ...m,
-              id: crypto.randomUUID(),
-            })),
+            ...message.messages,
             {
               role: 'assistant',
               content: result.text,
               id: crypto.randomUUID(),
+              createdAt: new Date(),
             },
           ],
         })

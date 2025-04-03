@@ -34,6 +34,7 @@ export function Chat({
     body: {
       model,
     },
+    sendExtraMessageFields: true,
   })
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export function Chat({
   }, [])
 
   return (
-    <div className="flex flex-col max-w-2xl md:max-w-2xl lg:max-w-3xl w-full mx-auto relative min-h-full">
+    <div className="flex flex-col max-w-lg xl:max-w-2xl 2xl:max-w-3xl w-full mx-auto relative min-h-full">
       <ChatDisplay messages={messages} isLoading={status === 'streaming'} />
       <ChatInput
         input={input}
