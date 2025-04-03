@@ -3,6 +3,7 @@
 import { createContext, use, useState } from 'react'
 import { z } from 'zod'
 import { aiModels } from '@/lib/schema'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 interface ChatProviderProps {
   model: z.infer<typeof aiModels>
@@ -15,7 +16,10 @@ export const ChatContext = createContext<ChatProviderProps>({
 })
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
-  const [model, setModel] = useState<z.infer<typeof aiModels>>('gpt-4o-mini')
+  const [model, setModel] = useLocalStorage<z.infer<typeof aiModels>>(
+    'chat-model',
+    'gpt-4o-mini'
+  )
 
   return <ChatContext value={{ model, setModel }}>{children}</ChatContext>
 }

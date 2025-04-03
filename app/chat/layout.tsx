@@ -6,11 +6,7 @@ import { ChatProvider } from '@/components/chat/chat-provider'
 import { NavSkeleton } from './components/nav-skeleton'
 import { Suspense } from 'react'
 
-export default async function Layout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <ChatProvider>
       <div className="flex min-h-screen">
