@@ -11,7 +11,7 @@ export const enhancePrompt = userActionClient
     const result = await generateText({
       model: openai('gpt-4o-mini'),
       system:
-        'You are an advanced prompt engineer. You will be given a prompt and you will need to enhance it to make it more specific and to the point. YOUR ONLY OUTPUT SHOULD BE THE ENHANCED PROMPT. DO NOT INCLUDE ANY OTHER TEXT.',
+        'You are an advanced prompt engineer. You will be given a prompt and you will need to enhance it to make it more specific and to the point. YOUR ONLY OUTPUT SHOULD BE THE ENHANCED PROMPT. DO NOT INCLUDE ANY OTHER TEXT AND DO NOT INCLUDE ANY MARKDOWN SYNTAX.',
       prompt,
     })
 

@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { BotIcon, User2Icon } from 'lucide-react'
 import { motion } from 'motion/react'
 import { useEffect } from 'react'
+import { Markdown } from './markdown'
 
 interface MessageProps {
   content: string
@@ -60,7 +61,7 @@ export function AIMessage({
       </motion.div>
       <div className="flex flex-col">
         <motion.div className="bg-zinc-800 dark:bg-zinc-900 text-white max-w-[80%] rounded-2xl rounded-tl-sm px-4 py-3 shadow-md border border-white/10 hover:shadow-lg hover:border-white/20 transition-all">
-          <div className="whitespace-pre-wrap break-words">{content}</div>
+          <Markdown>{content}</Markdown>
         </motion.div>
         {createdAt && (
           <span className="text-xs text-muted-foreground mt-1 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
