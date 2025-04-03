@@ -6,6 +6,7 @@ import { ChatInput } from '@/components/chat/chat-input'
 import { Chat as ChatDisplay } from '@/components/chat/chat'
 import { Message } from 'ai'
 import { useEffect, useRef } from 'react'
+import { useChat as useChatProvider } from '@/components/chat/chat-provider'
 
 export function Chat({
   isInitial,
@@ -17,6 +18,7 @@ export function Chat({
   const isFirstRender = useRef(true)
   const params = useParams()
   const id = params.id as string
+  const { model, setModel } = useChatProvider()
 
   const {
     messages,
@@ -29,6 +31,9 @@ export function Chat({
   } = useChat({
     id,
     initialMessages: isInitial ? initialMessages : undefined,
+    body: {
+      model,
+    },
   })
 
   useEffect(() => {

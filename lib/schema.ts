@@ -22,3 +22,12 @@ export const nameSchema = z
     message: 'Name must contain only letters and numbers',
   })
   .transform((val) => val.trim())
+
+export const aiModels = z.enum([
+  'gpt-4o',
+  'gpt-4o-mini',
+  'claude-3-7-sonnet',
+  'claude-3-5-sonnet',
+  'grok-2',
+  'deepseek-3-fireworks',
+])
