@@ -10,7 +10,7 @@ export default function Home() {
   const [input, setInput] = useState('')
   const { execute, status } = useAction(createChatAction)
   return (
-    <div className="flex flex-col max-w-2xl w-full mx-auto relative min-h-full">
+    <div className="flex flex-col max-w-2xl lg:max-w-3xl w-full mx-auto relative min-h-full">
       <Chat messages={[]} isLoading={false} />
       <ChatInput
         input={input}

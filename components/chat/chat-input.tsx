@@ -2,10 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { SendIcon, PauseIcon } from 'lucide-react'
+import { SendIcon, PauseIcon, Wand2Icon } from 'lucide-react'
 import { useEffect, useRef } from 'react'
-import { aiModels } from '@/lib/schema'
-import { z } from 'zod'
 import {
   Select,
   SelectContent,
@@ -14,6 +12,10 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useChat as useChatProvider } from '@/components/chat/chat-provider'
+import { enhancePrompt } from '@/lib/ai'
+import { useAction } from 'next-safe-action/hooks'
+import { cn } from '@/lib/utils'
+
 export function ChatInput({
   input,
   handleInputChange,
@@ -28,7 +30,6 @@ export function ChatInput({
   status: 'streaming' | 'submitted' | 'ready' | 'error'
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const { model, setModel } = useChatProvider()
 
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current
@@ -56,6 +57,18 @@ export function ChatInput({
     adjustTextareaHeight()
   }, [input])
 
+  const { execute: executeEnhancePrompt, status: enhancePromptStatus } =
+    useAction(enhancePrompt, {
+      onSuccess: (data) => {
+        console.log(data)
+        handleInputChange({
+          target: {
+            value: data.data || '',
+          },
+        } as React.ChangeEvent<HTMLTextAreaElement>)
+      },
+    })
+
   return (
     <form
       className="w-full fixed max-w-2xl mx-auto bottom-0 z-10 pb-4 pt-2"
@@ -73,47 +86,71 @@ export function ChatInput({
               onChange={(e) => {
                 handleInputChange(e)
               }}
+              disabled={enhancePromptStatus === 'executing'}
               onKeyDown={handleKeyDown}
               placeholder="Type a message..."
               className="w-full resize-none outline-none bg-transparent min-h-[24px] max-h-[200px] overflow-y-auto"
             />
             <div className="flex items-center justify-between">
-              <Select value={model} onValueChange={setModel}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a model" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="gpt-4o">GPT-4o</SelectItem>
-                  <SelectItem value="gpt-4o-mini">GPT-4o Mini</SelectItem>
-                  <SelectItem value="claude-3-7-sonnet">
-                    Claude Sonnet 3.7
-                  </SelectItem>
-                  <SelectItem value="claude-3-5-sonnet">
-                    Claude Sonnet 3.5
-                  </SelectItem>
-                  <SelectItem value="grok-2">Grok 2</SelectItem>
-                  <SelectItem value="deepseek-3-fireworks">
-                    DeepSeek 3 (Fireworks)
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-
-              <>
-                {(status === 'streaming' || status === 'submitted') && (
-                  <Button size="icon" onClick={stop} type="button">
-                    <PauseIcon className="size-4" />
-                  </Button>
-                )}
-                {status === 'ready' && (
-                  <Button size="icon" type="submit">
-                    <SendIcon className="size-4" />
-                  </Button>
-                )}
-              </>
+              <ModelSelector />
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  type="button"
+                  onClick={() => executeEnhancePrompt(input)}
+                  disabled={enhancePromptStatus === 'executing'}
+                >
+                  <Wand2Icon
+                    className={cn(
+                      'size-4',
+                      enhancePromptStatus === 'executing' && 'animate-pulse'
+                    )}
+                  />
+                </Button>
+                <>
+                  {(status === 'streaming' || status === 'submitted') && (
+                    <Button size="icon" onClick={stop} type="button">
+                      <PauseIcon className="size-4" />
+                    </Button>
+                  )}
+                  {status === 'ready' && (
+                    <Button
+                      size="icon"
+                      type="submit"
+                      disabled={enhancePromptStatus === 'executing'}
+                    >
+                      <SendIcon className="size-4" />
+                    </Button>
+                  )}
+                </>
+              </div>
             </div>
           </div>
         </CardContent>
       </Card>
     </form>
+  )
+}
+
+function ModelSelector() {
+  const { model, setModel } = useChatProvider()
+
+  return (
+    <Select value={model} onValueChange={setModel}>
+      <SelectTrigger>
+        <SelectValue placeholder="Select a model" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="gpt-4o">GPT-4o</SelectItem>
+        <SelectItem value="gpt-4o-mini">GPT-4o Mini</SelectItem>
+        <SelectItem value="claude-3-7-sonnet">Claude Sonnet 3.7</SelectItem>
+        <SelectItem value="claude-3-5-sonnet">Claude Sonnet 3.5</SelectItem>
+        <SelectItem value="grok-2">Grok 2</SelectItem>
+        <SelectItem value="deepseek-3-fireworks">
+          DeepSeek 3 (Fireworks)
+        </SelectItem>
+      </SelectContent>
+    </Select>
   )
 }

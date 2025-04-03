@@ -18,7 +18,7 @@ export function Chat({
   const isFirstRender = useRef(true)
   const params = useParams()
   const id = params.id as string
-  const { model, setModel } = useChatProvider()
+  const { model } = useChatProvider()
 
   const {
     messages,
@@ -49,7 +49,7 @@ export function Chat({
   }, [])
 
   return (
-    <div className="flex flex-col max-w-2xl w-full mx-auto relative min-h-full">
+    <div className="flex flex-col max-w-2xl md:max-w-2xl lg:max-w-3xl w-full mx-auto relative min-h-full">
       <ChatDisplay messages={messages} isLoading={status === 'streaming'} />
       <ChatInput
         input={input}
