@@ -14,7 +14,7 @@ export const createChatAction = userActionClient
   .schema(z.string())
   .action(async ({ parsedInput: message, ctx: { user } }) => {
     const name = await generateText({
-      model: openai('gpt-3.5-turbo'),
+      model: openai('gpt-4o-mini'),
       system:
         'You are an ai assistant. You will be given a message and you will need to generate a name for the chat. The name should be a short and concise description of the chat.',
       prompt: message,
