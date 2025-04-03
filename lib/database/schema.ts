@@ -1,4 +1,11 @@
-import { jsonb, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import {
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+  boolean,
+} from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -11,11 +18,12 @@ export const users = pgTable('users', {
 
 export const chats = pgTable('chats', {
   id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull(),
   messages: jsonb('messages').notNull(),
+  name: text('name').notNull(),
   userId: uuid('user_id')
     .references(() => users.id)
     .notNull(),
+  initialized: boolean('initialized').notNull().default(false),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

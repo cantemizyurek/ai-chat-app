@@ -2,14 +2,13 @@
 
 import { ChatInput } from '@/components/chat/chat-input'
 import { Chat } from '@/components/chat/chat'
-import { nanoid } from 'nanoid'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { createChatAction } from './action'
+import { useAction } from 'next-safe-action/hooks'
 
 export default function Home() {
   const [input, setInput] = useState('')
-  const router = useRouter()
-
+  const { execute, status } = useAction(createChatAction)
   return (
     <div className="flex flex-col max-w-2xl w-full mx-auto relative min-h-full">
       <Chat messages={[]} isLoading={false} />
@@ -18,10 +17,10 @@ export default function Home() {
         handleInputChange={(e) => setInput(e.target.value)}
         handleSubmit={(e) => {
           e.preventDefault()
-          router.push(`/chat/${nanoid()}?initialMessage=${input}`)
+          execute(input)
         }}
         stop={() => {}}
-        status={'ready'}
+        status={status === 'executing' ? 'submitted' : 'ready'}
       />
     </div>
   )

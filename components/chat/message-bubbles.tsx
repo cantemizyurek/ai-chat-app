@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import { BotIcon, User2Icon } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useEffect } from 'react'
 
 interface MessageProps {
   content: string
@@ -67,62 +68,6 @@ export function AIMessage({
           </span>
         )}
       </div>
-    </motion.div>
-  )
-}
-
-function TypingIndicator() {
-  return (
-    <motion.div
-      className="flex items-end space-x-1 ml-1"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      <motion.div
-        className="w-1 h-1 rounded-full bg-white/70 mb-1"
-        animate={{
-          y: [0, -4, 0],
-          opacity: [0.7, 1, 0.7],
-        }}
-        transition={{
-          duration: 0.6,
-          repeat: Infinity,
-          repeatType: 'loop',
-          ease: 'easeInOut',
-          times: [0, 0.5, 1],
-        }}
-      ></motion.div>
-      <motion.div
-        className="w-1 h-1 rounded-full bg-white/70 mb-1"
-        animate={{
-          y: [0, -4, 0],
-          opacity: [0.7, 1, 0.7],
-        }}
-        transition={{
-          duration: 0.6,
-          repeat: Infinity,
-          repeatType: 'loop',
-          ease: 'easeInOut',
-          delay: 0.15,
-          times: [0, 0.5, 1],
-        }}
-      ></motion.div>
-      <motion.div
-        className="w-1 h-1 rounded-full bg-white/70 mb-1"
-        animate={{
-          y: [0, -4, 0],
-          opacity: [0.7, 1, 0.7],
-        }}
-        transition={{
-          duration: 0.6,
-          repeat: Infinity,
-          repeatType: 'loop',
-          ease: 'easeInOut',
-          delay: 0.3,
-          times: [0, 0.5, 1],
-        }}
-      ></motion.div>
     </motion.div>
   )
 }

@@ -1,8 +1,11 @@
+'use client'
+
 import { Message } from 'ai'
 import { UserMessage } from './message-bubbles'
 import { AIMessage } from './message-bubbles'
 import { MessageSquareIcon } from 'lucide-react'
 import { motion } from 'motion/react'
+import { useEffect, useRef } from 'react'
 
 interface ChatProps {
   messages: Message[]
@@ -10,6 +13,30 @@ interface ChatProps {
 }
 
 export function Chat({ messages, isLoading = false }: ChatProps) {
+  const isAtBottomRef = useRef(true)
+
+  function checkIfAtBottom() {
+    const threshold = 100
+    const isAtBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - threshold
+    isAtBottomRef.current = isAtBottom
+  }
+
+  useEffect(() => {
+    if (isAtBottomRef.current) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      })
+    }
+  }, [messages])
+
+  useEffect(() => {
+    window.addEventListener('scroll', checkIfAtBottom)
+    return () => window.removeEventListener('scroll', checkIfAtBottom)
+  }, [])
+
   if (messages.length === 0) {
     return <EmptyChat />
   }
@@ -41,7 +68,7 @@ export function Chat({ messages, isLoading = false }: ChatProps) {
   )
 }
 
-function EmptyChat() {
+export function EmptyChat() {
   return (
     <motion.div
       className="flex flex-col items-center justify-center h-full min-h-[calc(100vh-10rem)] p-4 text-center"

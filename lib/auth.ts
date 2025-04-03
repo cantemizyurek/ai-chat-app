@@ -1,7 +1,29 @@
 import { db, schema } from '@/lib/database'
 import { eq } from 'drizzle-orm'
-import { users } from '@/lib/database/schema'
 import { cookies } from 'next/headers'
+
+export async function getUser() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get('session')
+
+  if (!session) return null
+
+  const [result] = await db
+    .select({
+      user: schema.users,
+    })
+    .from(schema.users)
+    .innerJoin(schema.sessions, eq(schema.users.id, schema.sessions.userId))
+    .where(eq(schema.sessions.id, session.value))
+
+  if (!result) return null
+
+  return {
+    id: result.user.id,
+    email: result.user.email,
+    name: result.user.name,
+  }
+}
 
 export async function createSession(userId: string) {
   const session = await db

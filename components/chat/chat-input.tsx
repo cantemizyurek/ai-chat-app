@@ -54,7 +54,7 @@ export function ChatInput({
         handleSubmit(e)
       }}
     >
-      <Card className="w-full">
+      <Card className="w-full p-0 bg-background/10 backdrop-blur-sm">
         <CardContent className="p-4">
           <div className="flex flex-col gap-3 w-full">
             <textarea
