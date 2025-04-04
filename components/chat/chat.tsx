@@ -5,14 +5,14 @@ import { UserMessage } from './message-bubbles'
 import { AIMessage } from './message-bubbles'
 import { MessageSquareIcon } from 'lucide-react'
 import { motion } from 'motion/react'
-import { useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 
 interface ChatProps {
   messages: Message[]
   isLoading?: boolean
 }
 
-export function Chat({ messages, isLoading = false }: ChatProps) {
+function ChatNonMemo({ messages, isLoading = false }: ChatProps) {
   const isAtBottomRef = useRef(true)
 
   function checkIfAtBottom() {
@@ -67,6 +67,10 @@ export function Chat({ messages, isLoading = false }: ChatProps) {
     </div>
   )
 }
+
+export const Chat = memo(ChatNonMemo, (prevProps, nextProps) => {
+  return prevProps.messages === nextProps.messages
+})
 
 export function EmptyChat() {
   return (

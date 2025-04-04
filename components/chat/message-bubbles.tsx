@@ -69,12 +69,13 @@ export function AIMessage({
           <Markdown>{content}</Markdown>
         </motion.div>
         <div className="flex items-center gap-2">
+          <CopyButton content={content} />
+
           {createdAt && (
             <span className="text-xs text-muted-foreground mt-1 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
               {formatTime(createdAt)}
             </span>
           )}
-          <CopyButton content={content} />
         </div>
       </div>
     </motion.div>
