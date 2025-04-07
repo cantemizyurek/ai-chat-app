@@ -22,7 +22,7 @@ export const signInAction = actionClient
         email: { _errors: ['User not found'] },
       })
 
-    const isPasswordValid = await compare(password, user.password)
+    const isPasswordValid = await compare(password, user.password!)
 
     if (!isPasswordValid)
       return returnValidationErrors(signInSchema, {
