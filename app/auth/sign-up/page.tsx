@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+import { ArrowLeft, Loader2, VenetianMask } from 'lucide-react'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { useAction } from 'next-safe-action/hooks'
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/form'
 import { cn } from '@/lib/utils'
 import { InputPassword } from '@/components/ui/input-password'
-import { signUpAction } from './action'
+import { anonymousSignUpAction, signUpAction } from './action'
 
 export default function SignUpPage() {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -170,6 +170,24 @@ export default function SignUpPage() {
                 'Sign Up'
               )}
             </Button>
+            <div className="flex items-center gap-2">
+              <div className="h-px w-full bg-border" />
+              <span className="text-muted-foreground text-sm">Or</span>
+              <div className="h-px w-full bg-border" />
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              <div></div>
+              <Button
+                variant="outline"
+                className="w-full"
+                type="button"
+                onClick={() => anonymousSignUpAction()}
+              >
+                <VenetianMask className="h-4 w-4" />
+                Anonymous
+              </Button>
+              <div></div>
+            </div>
             <div className="flex gap-2 items-center mx-auto text-sm">
               <span className="text-muted-foreground items-center">
                 Already have an account?
