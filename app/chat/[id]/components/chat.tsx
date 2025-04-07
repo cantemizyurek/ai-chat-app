@@ -51,7 +51,7 @@ export function Chat({
   }, [])
 
   return (
-    <div className="flex flex-col max-w-lg xl:max-w-2xl 2xl:max-w-3xl w-full mx-auto relative min-h-full">
+    <>
       <ChatDisplay messages={messages} isLoading={status === 'streaming'} />
       <ChatInput
         input={input}
@@ -60,6 +60,6 @@ export function Chat({
         stop={stop}
         status={status || 'ready'}
       />
-    </div>
+    </>
   )
 }

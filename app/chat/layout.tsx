@@ -18,7 +18,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             )}
           />
         </Suspense>
-        <div className="flex flex-col w-full min-h-full ml-68">{children}</div>
+        <div className="flex flex-col w-full min-h-full ml-68">
+          <div className="flex flex-col max-w-lg xl:max-w-2xl 2xl:max-w-3xl w-full mx-auto relative min-h-full">
+            {children}
+          </div>
+        </div>
       </div>
       <Toaster />
     </JotaiProvider>

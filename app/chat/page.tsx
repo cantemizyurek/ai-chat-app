@@ -13,7 +13,7 @@ export default function Home() {
   const [messages] = useState<Message[]>([])
 
   return (
-    <div className="flex flex-col max-w-2xl lg:max-w-3xl w-full mx-auto relative min-h-full">
+    <>
       <Chat messages={messages} isLoading={false} />
       <ChatInput
         input={input}
@@ -25,6 +25,6 @@ export default function Home() {
         stop={() => {}}
         status={status === 'executing' ? 'submitted' : 'ready'}
       />
-    </div>
+    </>
   )
 }

@@ -75,7 +75,7 @@ export function ChatInput({
 
   return (
     <form
-      className="w-full fixed max-w-2xl mx-auto bottom-0 z-10 pb-4 pt-2"
+      className="w-full fixed max-w-lg xl:max-w-2xl 2xl:max-w-3xl mx-auto bottom-0 z-10 pb-4 pt-2"
       onSubmit={(e) => {
         e.preventDefault()
         handleSubmit(e)
