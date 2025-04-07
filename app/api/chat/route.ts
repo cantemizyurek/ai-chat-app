@@ -2,6 +2,7 @@ import { openai } from '@ai-sdk/openai'
 import { anthropic } from '@ai-sdk/anthropic'
 import { xai } from '@ai-sdk/xai'
 import { fireworks } from '@ai-sdk/fireworks'
+import { groq } from '@ai-sdk/groq'
 import { LanguageModelV1, streamText, smoothStream } from 'ai'
 import { db } from '@/lib/database'
 import { schema } from '@/lib/database'
@@ -57,6 +58,10 @@ function getModel(model: z.infer<typeof aiModels>): LanguageModelV1 {
     case 'deepseek-3-fireworks':
       return fireworks(
         'accounts/fireworks/models/deepseek-v3'
+      ) as unknown as LanguageModelV1
+    case 'llma4-groq':
+      return groq(
+        'meta-llama/llama-4-scout-17b-16e-instruct'
       ) as unknown as LanguageModelV1
     default:
       throw new Error(`Unsupported model: ${model}`)

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { models, ModelSlug } from './models'
 
 export const emailSchema = z.string().email()
 
@@ -23,11 +24,6 @@ export const nameSchema = z
   })
   .transform((val) => val.trim())
 
-export const aiModels = z.enum([
-  'gpt-4o',
-  'gpt-4o-mini',
-  'claude-3-7-sonnet',
-  'claude-3-5-sonnet',
-  'grok-2',
-  'deepseek-3-fireworks',
-])
+export const aiModels = z.enum(
+  models.map((model) => model.slug) as [ModelSlug, ...ModelSlug[]]
+)

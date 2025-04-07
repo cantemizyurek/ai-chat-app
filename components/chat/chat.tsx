@@ -68,9 +68,7 @@ function ChatNonMemo({ messages, isLoading = false }: ChatProps) {
   )
 }
 
-export const Chat = memo(ChatNonMemo, (prevProps, nextProps) => {
-  return prevProps.messages === nextProps.messages
-})
+export const Chat = memo(ChatNonMemo)
 
 export function EmptyChat() {
   return (

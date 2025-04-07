@@ -6,7 +6,8 @@ import { ChatInput } from '@/components/chat/chat-input'
 import { Chat as ChatDisplay } from '@/components/chat/chat'
 import { Message } from 'ai'
 import { useEffect, useRef } from 'react'
-import { useChat as useChatProvider } from '@/components/chat/chat-provider'
+import { useAtomValue } from 'jotai'
+import { modelAtom } from '@/lib/jotai/atoms'
 
 export function Chat({
   isInitial,
@@ -18,7 +19,7 @@ export function Chat({
   const isFirstRender = useRef(true)
   const params = useParams()
   const id = params.id as string
-  const { model } = useChatProvider()
+  const model = useAtomValue(modelAtom)
 
   const {
     messages,

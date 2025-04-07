@@ -2,14 +2,14 @@ import { getUser } from '@/lib/auth'
 import { Nav } from './components/nav'
 import { getChats } from '@/lib/database/queries'
 import { redirect } from 'next/navigation'
-import { ChatProvider } from '@/components/chat/chat-provider'
 import { NavSkeleton } from './components/nav-skeleton'
 import { Suspense } from 'react'
 import { Toaster } from '@/components/ui/sonner'
+import { JotaiProvider } from '@/components/jotai-provider'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ChatProvider>
+    <JotaiProvider>
       <div className="flex min-h-screen">
         <Suspense fallback={<NavSkeleton />}>
           <Nav
@@ -21,6 +21,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col w-full min-h-full ml-68">{children}</div>
       </div>
       <Toaster />
-    </ChatProvider>
+    </JotaiProvider>
   )
 }

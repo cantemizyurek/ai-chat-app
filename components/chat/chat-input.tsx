@@ -11,10 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useChat as useChatProvider } from '@/components/chat/chat-provider'
 import { enhancePrompt } from '@/lib/ai'
 import { useAction } from 'next-safe-action/hooks'
 import { cn } from '@/lib/utils'
+import { useAtom } from 'jotai'
+import { modelAtom } from '@/lib/jotai/atoms'
+import { z } from 'zod'
+import { aiModels } from '@/lib/schema'
+import { models } from '@/lib/models'
 
 export function ChatInput({
   input,
@@ -134,22 +138,28 @@ export function ChatInput({
 }
 
 function ModelSelector() {
-  const { model, setModel } = useChatProvider()
+  const [model, setModel] = useAtom(modelAtom)
 
   return (
-    <Select value={model} onValueChange={setModel}>
+    <Select
+      value={model}
+      defaultValue={model}
+      onValueChange={(value) => {
+        const parsed = aiModels.safeParse(value)
+        if (parsed.success) {
+          setModel(parsed.data)
+        }
+      }}
+    >
       <SelectTrigger>
         <SelectValue placeholder="Select a model" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="gpt-4o">GPT-4o</SelectItem>
-        <SelectItem value="gpt-4o-mini">GPT-4o Mini</SelectItem>
-        <SelectItem value="claude-3-7-sonnet">Claude Sonnet 3.7</SelectItem>
-        <SelectItem value="claude-3-5-sonnet">Claude Sonnet 3.5</SelectItem>
-        <SelectItem value="grok-2">Grok 2</SelectItem>
-        <SelectItem value="deepseek-3-fireworks">
-          DeepSeek 3 (Fireworks)
-        </SelectItem>
+        {models.map((model) => (
+          <SelectItem key={model.slug} value={model.slug}>
+            {model.name}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   )
