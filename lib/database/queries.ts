@@ -18,9 +18,26 @@ export async function getChats(userId: string) {
 
 export async function getChat(id: string) {
   const [chat] = await db
-    .select()
+    .select({
+      id: schema.chats.id,
+      name: schema.chats.name,
+      messages: schema.chats.messages,
+      initialized: schema.chats.initialized,
+      settings: {
+        systemPrompt: schema.chatSettings.systemPrompt,
+        temperature: schema.chatSettings.temperature,
+        topP: schema.chatSettings.topP,
+        topK: schema.chatSettings.topK,
+      },
+      createdAt: schema.chats.createdAt,
+      updatedAt: schema.chats.updatedAt,
+    })
     .from(schema.chats)
     .where(eq(schema.chats.id, id))
+    .innerJoin(
+      schema.chatSettings,
+      eq(schema.chats.id, schema.chatSettings.chatId)
+    )
 
   if (!chat) redirect('/chat')
 

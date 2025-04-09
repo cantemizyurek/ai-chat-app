@@ -5,6 +5,8 @@ import {
   timestamp,
   uuid,
   boolean,
+  integer,
+  real,
 } from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
@@ -24,6 +26,19 @@ export const chats = pgTable('chats', {
     .references(() => users.id)
     .notNull(),
   initialized: boolean('initialized').notNull().default(false),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+})
+
+export const chatSettings = pgTable('chat_settings', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  chatId: uuid('chat_id')
+    .references(() => chats.id, { onDelete: 'cascade' })
+    .notNull(),
+  systemPrompt: text('system_prompt').notNull().default(''),
+  temperature: real('temperature').notNull().default(1),
+  topP: real('top_p').notNull().default(1),
+  topK: integer('top_k').notNull().default(1),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist } from 'next/font/google'
 import './globals.css'
+import { JotaiProvider } from '@/components/jotai-provider'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,8 +33,9 @@ export default function RootLayout({
           />
         </div>
 
-        {/* Content */}
-        <div className="min-h-screen">{children}</div>
+        <JotaiProvider>
+          <div className="min-h-screen">{children}</div>
+        </JotaiProvider>
 
         <div className="fixed inset-x-0 bottom-0 -z-10 transform-gpu overflow-hidden blur-3xl">
           <div

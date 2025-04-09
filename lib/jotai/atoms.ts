@@ -3,12 +3,20 @@ import { atomWithStorage } from 'jotai/utils'
 import { z } from 'zod'
 import { aiModels } from '../schema'
 import { Message } from 'ai'
+import { chatSettingsSchema } from '@/app/chat/schema'
 
 export type Chat = {
   id: string
   name: string
   messages: Message[]
 }
+
+export const chatSettingsAtom = atom<z.infer<typeof chatSettingsSchema>>({
+  systemPrompt: '',
+  temperature: 1,
+  topP: 1,
+  topK: 1,
+})
 
 export const modelAtom = atomWithStorage<z.infer<typeof aiModels>>(
   'model',

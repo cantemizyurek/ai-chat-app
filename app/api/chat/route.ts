@@ -1,5 +1,5 @@
 import { openai } from '@ai-sdk/openai'
-import { anthropic } from '@ai-sdk/anthropic'
+import { anthropic, AnthropicProviderOptions } from '@ai-sdk/anthropic'
 import { xai } from '@ai-sdk/xai'
 import { fireworks } from '@ai-sdk/fireworks'
 import { groq } from '@ai-sdk/groq'
@@ -15,12 +15,21 @@ export const maxDuration = 30
 export async function POST(req: Request) {
   const message = await req.json()
   const model = aiModels.parse(message.model)
+  const [settings] = await db
+    .select()
+    .from(schema.chatSettings)
+    .where(eq(schema.chatSettings.chatId, message.id))
 
   const result = streamText({
     model: getModel(model),
-    system: 'You are a helpful assistant who always speaks in pleasant form',
+    system:
+      settings.systemPrompt ||
+      'You are a helpful assistant who always speaks in pleasant form',
     messages: message.messages,
     experimental_transform: smoothStream(),
+    temperature: settings.temperature,
+    topP: settings.topP,
+    topK: settings.topK,
     async onFinish(result) {
       await db
         .update(schema.chats)

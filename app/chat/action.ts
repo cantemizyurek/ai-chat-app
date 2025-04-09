@@ -9,17 +9,11 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { generateText } from 'ai'
 import { openai } from '@ai-sdk/openai'
+import { chatSettingsSchema } from './schema'
 
 export const createChatAction = userActionClient
-  .schema(z.string())
-  .action(async ({ parsedInput: message, ctx: { user } }) => {
-    const name = await generateText({
-      model: openai('gpt-4o-mini'),
-      system:
-        'You are an ai assistant. You will be given a message and you will need to generate a name for the chat. The name should be a short and concise description of the chat.',
-      prompt: message,
-    })
-
+  .schema(z.object({ message: z.string(), settings: chatSettingsSchema }))
+  .action(async ({ parsedInput: { message, settings }, ctx: { user } }) => {
     const [chat] = await db
       .insert(schema.chats)
       .values({
@@ -31,13 +25,32 @@ export const createChatAction = userActionClient
             content: message,
           },
         ],
-        name: name.text,
+        name: message,
       })
       .returning()
+
+    await db.insert(schema.chatSettings).values({
+      chatId: chat.id,
+      systemPrompt: settings.systemPrompt,
+      temperature: settings.temperature,
+      topP: settings.topP,
+      topK: settings.topK,
+    })
 
     revalidatePath('/chat')
 
     redirect(`/chat/${chat.id}`)
+  })
+
+export const updateChatSettingsAction = userActionClient
+  .schema(z.object({ id: z.string(), settings: chatSettingsSchema }))
+  .action(async ({ parsedInput: { id, settings }, ctx: { user } }) => {
+    await db
+      .update(schema.chatSettings)
+      .set(settings)
+      .where(eq(schema.chatSettings.chatId, id))
+
+    revalidatePath(`/chat`, 'layout')
   })
 
 export const deleteChatAction = userActionClient

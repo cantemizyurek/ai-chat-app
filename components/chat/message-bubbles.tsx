@@ -7,12 +7,18 @@ import { useEffect } from 'react'
 import { Markdown } from './markdown'
 import { Button } from '../ui/button'
 import { toast } from 'sonner'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../ui/collapsible'
 
 interface MessageProps {
   content: string
   createdAt?: Date
   isLoading?: boolean
   isLast?: boolean
+  thinking?: string
 }
 
 export function UserMessage({ content, createdAt }: MessageProps) {
@@ -48,6 +54,7 @@ export function AIMessage({
   createdAt,
   isLoading,
   isLast,
+  thinking,
 }: MessageProps) {
   return (
     <motion.div
@@ -66,6 +73,18 @@ export function AIMessage({
       </motion.div>
       <div className="flex flex-col">
         <motion.div className="bg-zinc-800 dark:bg-zinc-900 text-white max-w-[80%] rounded-2xl rounded-tl-sm px-4 py-3 shadow-md border border-white/10 hover:shadow-lg hover:border-white/20 transition-all">
+          {thinking && (
+            <Collapsible className="w-full">
+              <CollapsibleTrigger>
+                <p className="text-xs text-muted-foreground mb-2">
+                  Show reasoning
+                </p>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <p className="text-xs text-muted-foreground mb-2">{thinking}</p>
+              </CollapsibleContent>
+            </Collapsible>
+          )}
           <Markdown>{content}</Markdown>
         </motion.div>
         <div className="flex items-center gap-2">

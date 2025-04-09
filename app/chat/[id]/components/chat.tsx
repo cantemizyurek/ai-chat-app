@@ -6,20 +6,29 @@ import { ChatInput } from '@/components/chat/chat-input'
 import { Chat as ChatDisplay } from '@/components/chat/chat'
 import { Message } from 'ai'
 import { useEffect, useRef } from 'react'
-import { useAtomValue } from 'jotai'
-import { modelAtom } from '@/lib/jotai/atoms'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { chatSettingsAtom, modelAtom } from '@/lib/jotai/atoms'
+import { chatSettingsSchema } from '@/app/chat/schema'
+import { z } from 'zod'
 
 export function Chat({
   isInitial,
   initialMessages,
+  initialSettings,
 }: {
   isInitial: boolean
   initialMessages: Message[]
+  initialSettings: z.infer<typeof chatSettingsSchema>
 }) {
   const isFirstRender = useRef(true)
   const params = useParams()
   const id = params.id as string
   const model = useAtomValue(modelAtom)
+  const setChatSettings = useSetAtom(chatSettingsAtom)
+
+  useEffect(() => {
+    setChatSettings(initialSettings)
+  }, [initialSettings])
 
   const {
     messages,

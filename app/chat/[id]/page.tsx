@@ -14,6 +14,7 @@ export default async function Page({
     <Chat
       isInitial={chat.initialized}
       initialMessages={chat.messages as Message[]}
+      initialSettings={chat.settings}
     />
   )
 }
